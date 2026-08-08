@@ -67,3 +67,15 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# VS Code
+.vscode/
+
+# CPH
+.cph/
+.cph-ng/
+
+# Executables
+*.exe
+*.out
+*.bin
