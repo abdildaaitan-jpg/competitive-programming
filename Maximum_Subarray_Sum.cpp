@@ -32,6 +32,7 @@ void solve() {
     vector < int > nums(n);
     for (int &it: nums) cin >> it;
     int cur = nums[0];
+    max_sum = cur;
     for (int i = 1; i < n; i++) {
         cur = max(nums[i], cur + nums[i]);
         up(max_sum, cur);
