@@ -45,8 +45,10 @@ void solve() {
     vector < int > nums(n);
     for (int &it: nums) cin >> it;
     int l = *max_element(all(nums)), r = accumulate(all(nums), 0);
+    // Binary Search
     while (l != r) {
         int mid = (l + r) / 2;
+        // Check
         if (check(nums, mid)) {
             r = mid;
         }
