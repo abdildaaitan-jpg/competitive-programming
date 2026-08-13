@@ -29,18 +29,16 @@ void down(int &x, int y) { x = min(x, y); return; }
 int n, k;
 vector < int > nums;
 bool check(int mx_l) {
-    int cnt = 0, sum = 0, max_sum = 0;
-    for (int it: nums) {
-        if (sum + it > mx_l) {
-            up(max_sum, sum);
+    int cnt = 1, sum = 0;
+    for (int it = 0; it < n; it++) {
+        if (nums[it] > mx_l) return 0;
+        sum += nums[it];    
+        if (sum > mx_l) {
             cnt++;
-            sum = it;
-        }
-        else {
-            sum += it;
+            sum = nums[it];
         }
     }
-    return max_sum == mx_l && cnt == k;
+    return cnt <= k;
 }
 void solve() {
     cin >> n >> k;
@@ -49,16 +47,21 @@ void solve() {
         cin >> it;
         nums.pb(it);
     }
-    int l = *min_element(all(nums)), r = accumulate(all(nums), 0);
+    int l = 0, r = 0;
+    for (int it: nums) {
+        r += it;
+        up(l, it);
+    }
     while (l != r) {
-        int mid = l + (r - l + 1) / 2;
+        int mid = l + (r - l) / 2;
         if (check(mid)) {
-            l = mid;
+            r = mid;
         }
         else {
-            r = mid - 1;
+            l = mid + 1;
         }
     }
+    cout << l;
     return;
 }
 signed main() {
@@ -70,3 +73,4 @@ signed main() {
     while (T--) solve();
     return 0;
 }
+// 
