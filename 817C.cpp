@@ -50,8 +50,8 @@ void solve() {
             l = mid + 1;
         }
     }
-    int ans = n - l;
-    cout << ((ans > 0) ? ans + 1 : 0);
+    int ans = n - l + 1;
+    cout << ((check(l)) ? ((ans > 0) ? ans : 0) : 0);
     return;
 }
 signed main() {
