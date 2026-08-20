@@ -60,7 +60,7 @@ void solve() {
         cout << 0 << '\n';
     }
     else {
-        cout << (NewRoads.size() + 1) / 2 << '\n';
+        cout << NewRoads.size() - 1 << '\n';
         for (int i = 0; i < NewRoads.size(); i++) {
             if (i == 0 || i == NewRoads.size() - 1) cout << NewRoads[i] << ' ';
             else cout << NewRoads[i] << '\n' << NewRoads[i] << ' ';
