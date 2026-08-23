@@ -39,12 +39,14 @@ void dfs(int v, int parent) {
     used[v] = 1;
     
     for (int to: g[v]) {
-        if (!reconst && !used[to]) {
+        if (cycle) pofik;
+        if (!used[to]) {
             dfs(to, v);
         }
-        else if (!reconst && to != parent && to == st) {
+        else if (to != parent) {
             cycle = 1;
             reconst = 1;
+            st = to;
             trip.pb(v);
             trip.pb(to);
             return;
@@ -52,12 +54,13 @@ void dfs(int v, int parent) {
     }
     if (reconst) {
         trip.push_front(v);
+        if (v == st) reconst = 0;
     }
 }
 
 void solve() {
     cin >> n >> m;
-    g.resize(n + 1); used.resize(n + 1);
+    g.resize(n + 1); used.resize(n + 1, 0);
     int u, v;
     for (int i = 0; i < m; i++) {
         cin >> u >> v;
@@ -65,10 +68,7 @@ void solve() {
         g[v].pb(u);
     }    
     for (int i = 1; i <= n; i++) {
-        if (!reconst) {
-            fill(all(used), 0);
-            cycle = 0; reconst = 0;
-            st = i;
+        if (!cycle && !used[i]) {
             dfs(i, -1);
         }
     }
