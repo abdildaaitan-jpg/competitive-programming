@@ -30,67 +30,85 @@ void down(int &x, int y) { x = min(x, y); return; }
 int n, m;
 vector < string > g;
 vector < vector < bool >> used;
+vector < vector < char >> dir;
 deque < char > path;
-pair < int, int > A, B, C;
-bool valPath = 0, reconst = 0;
+queue < pair < int, int >> q;
+bool valPath = 0;
+int a, b;
 
-void dfs(int u, int v) {
+int wayx[] = {-1, 1, 0, 0};
+int wayy[] = {0, 0, -1, 1};
+char way[] = {'U', 'D', 'L', 'R'};
+
+void bfs(int u, int v) {
     used[u][v] = 1;
-    if (u == B.fi && v == B.se) {
-        valPath = 1;
-        reconst = 1;
-        C = B;
-        return;
-    }
-    if (!reconst && u < n - 1 && (g[u + 1][v] == '.' || g[u + 1][v] == 'B') && !used[u + 1][v]) {
-        dfs(u + 1, v);
-    }
-    if (!reconst && v < m - 1 && (g[u][v + 1] == '.' || g[u][v + 1] == 'B') && !used[u][v + 1]) {
-        dfs(u, v + 1);
-    }
-    if (!reconst && u > 0 && (g[u - 1][v] == '.' || g[u - 1][v] == 'B') && !used[u - 1][v]) {
-        dfs(u - 1, v);
-    }
-    if (!reconst && v > 0 && (g[u][v - 1] == '.' || g[u][v - 1] == 'B') && !used[u][v - 1]) {
-        dfs(u, v - 1);
-    }
+    q.push({u, v});
+    
+    bool stop = 0;
+    while (!q.empty()) {
+        auto [x, y] = q.front();
+        q.pop();
+        for (int i = 0; i < 4; i++) {
+            int nx = x + wayx[i];
+            int ny = y + wayy[i];
+            
+            if (nx < 0 || nx > n - 1 || ny < 0 || ny > m - 1) pofik;
 
-    if (reconst) {
-        if (u == C.fi + 1) {
-            path.push_front('U');
+            if (g[nx][ny] == 'B') {
+                valPath = 1;
+                dir[nx][ny] = way[i];
+                a = nx;
+                b = ny;
+                stop = 1;
+                break;
+            }
+            
+            if (g[nx][ny] != '#' && !used[nx][ny]) {
+                used[nx][ny] = 1;
+                dir[nx][ny] = way[i];
+                q.push({nx, ny});
+            }
         }
-        else if (u == C.fi - 1) {
-            path.push_front('D');
-        }
-        else if (v == C.se - 1) {
-            path.push_front('R');
-        }
-        else if (v == C.se + 1) {
-            path.push_front('L');
-        }
-        C.fi = u; C.se = v;
+        if (stop) break;
     }
 }
 
 void solve() {
     cin >> n >> m;
-    g.resize(n); used.resize(n, vector < bool > (m, 0));
+    g.resize(n); used.resize(n, vector < bool > (m, 0)); dir.resize(n, vector < char > (m));
     for (auto &it: g) cin >> it;
+    
+    bool stop = 0;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             if (g[i][j] == 'A') {
-                A.fi = i; A.se = j;
-            }
-            else if (g[i][j] == 'B') {
-                B.fi = i; B.se = j;
+                bfs(i, j);
+                stop = 1;
+                break;
             }
         }
+        if (stop) break;
     }
-    used[A.fi][A.se] = 1;
-    dfs(A.fi, A.se);
+
     if (valPath) {
+        while (g[a][b] != 'A') {
+            char idx = dir[a][b];
+            path.push_front(idx);
+            if (idx == 'R') {
+                b--;
+            }
+            else if (idx == 'L') {
+                b++;
+            }
+            else if (idx == 'U') {
+                a++;
+            }
+            else {
+                a--;
+            }
+        }
         cout << "YES\n" << path.size() << '\n';
-        for (auto it: path) cout << it << ' ';
+        for (auto it: path) cout << it;
     }
     else {
         cout << "NO";
