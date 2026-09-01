@@ -65,7 +65,7 @@ void solve() {
         g[boss[i]].pb(i);
     }
     for (int i = 1; i <= n; i++) {
-        if (!used[i]) {
+        if (!used[i] && boss[i] == -1) {
             bfs(i);
         }
     }
