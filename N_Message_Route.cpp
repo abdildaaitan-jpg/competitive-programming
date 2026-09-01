@@ -29,40 +29,49 @@ void down(int &x, int y) { x = min(x, y); return; }
 
 int n, m;
 vector < vector < int >> g;
+queue < int > q;
 vector < bool > used;
-deque < int > path;
-bool valPath = 0, reconst = 0;
+vector < int > parent;
+bool valPath = 0;
 
-void dfs(int v) {
-    used[v] = 1;
-    if (v == n) {
-        valPath = 1;
-        reconst = 1;
-        return;
-    }
+void bfs(int st) {
+    q.push(st);
+    used[st] = 1;
 
-    for (int to: g[v]) {
-        if (!used[to] && !reconst) {
-            dfs(to);
+    while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+    
+        for (int to: g[v]) {
+            if (!used[to]) {
+                used[to] = 1;
+                q.push(to);
+                parent[to] = v;
+            }
         }
     }
+}
 
-    if (reconst) {
-        path.push_front(v);
+deque < int > makeV(int v) {
+    deque < int > path;
+    for (int i = v; i != -1; i = parent[i]) {
+        if (i) valPath = 1;
+        path.push_front(i);
     }
+    return path;
 }
 
 void solve() {
     cin >> n >> m;
-    g.resize(n + 1); used.resize(n + 1, 0);
+    g.resize(n + 1); used.resize(n + 1, 0); parent.resize(n + 1, -1);  
     int u, v;
     for (int i = 0; i < m; i++) {
         cin >> u >> v;
         g[u].pb(v);
         g[v].pb(u);
-    }    
-    path.pb(n);
-    dfs(1);
+    }  
+    bfs(1);
+    deque < int > path = makeV(n);
     if (valPath) {
         cout << path.size() << '\n';
         for (int it: path) cout << it << ' ';
