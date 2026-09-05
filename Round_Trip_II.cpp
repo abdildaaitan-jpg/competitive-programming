@@ -61,16 +61,11 @@ void dfs(int v) {
 
 void solve() {
     cin >> n >> m;
-    g.resize(n + 1); gg.resize(n + 1, vector < bool > (n + 1, 0)); color.resize(n + 1, 0);
+    g.resize(n + 1); color.resize(n + 1, 0);
     int u, v;
     for (int i = 0; i < m; i++) {
         cin >> u >> v;
         g[u].pb(v);
-        gg[u][v] = 1;
-        if (gg[u][v] && gg[v][u]) {
-            cout << 3 << '\n' << u << ' ' << v << ' ' << u;
-            return;
-        } 
     }
     for (int i = 1; i <= n; i++) {
         if (color[i] == 0 && !cycle) {
