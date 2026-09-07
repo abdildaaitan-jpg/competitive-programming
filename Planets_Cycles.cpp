@@ -29,27 +29,26 @@ void down(int &x, int y) { x = min(x, y); return; }
 
 int n;
 vector < int > g;
-vector < int > planet, color;
-vector < bool > used;
-bool cycle = 0, re_turn = 0;
-int cnt_1 = 0;
+vector < int > planet, color, path;
+bool reconst = 0;
+int cycle_start;
 
 void dfs(int v) {
-    if (re_turn) return;
     color[v] = 1;
-    cnt_1++;
-
+    
     if (color[g[v]] == 0) {
         dfs(g[v]);
     }
     else if (color[g[v]] == 1) {
-        cycle = 1;
-        re_turn = 1;
-        return;
+        cycle_start = g[v];
+        reconst = 1;
     }
-    if (!re_turn) {
-        color[v] = 2;
-        cnt_1--;
+    
+    color[v] = 2;
+
+    if (reconst) {
+        path.pb(v);
+        if (v == cycle_start) reconst = 0;
     }
 }
 
@@ -60,16 +59,9 @@ void solve() {
         cin >> g[i];
         if (i == g[i]) planet[i] = 1;
     }
-    for (int i = 1; i <= n; i++) {
-        if (color[i] == 0) {
-            dfs(i);
-            if (cycle) break;
-        }
-    }
-    for (int i = 1; i <= n; i++) {
-        if (color[i] == 1) {
-            planet[i] = cnt_1;
-        }
+    dfs(1);
+    for (int it: path) {
+        planet[it] = path.size();
     }
     for (int i = 1; i <= n; i++) {
         if (planet[i] != 0) pofik;
