@@ -44,11 +44,19 @@ void dfs(int v) {
         reconst = 1;
     }
     
+    
     color[v] = 2;
-
     if (reconst) {
-        path.pb(v);
-        if (v == cycle_start) reconst = 0;
+        path.pb(v); 
+        if (v == cycle_start) {
+            reconst = 0;
+            for (int it: path) {
+                planet[it] = path.size();
+            }
+        }
+    }
+    else {
+        planet[v] = planet[g[v]] + 1;
     }
 }
 
@@ -57,18 +65,19 @@ void solve() {
     g.resize(n + 1); color.resize(n + 1, 0); planet.resize(n + 1, 0); 
     for (int i = 1; i <= n; i++) {
         cin >> g[i];
-        if (i == g[i]) planet[i] = 1;
-    }
-    dfs(1);
-    for (int it: path) {
-        planet[it] = path.size();
+        if (i == g[i]) { 
+            planet[i] = 1;
+            color[i] = 2;
+        }
     }
     for (int i = 1; i <= n; i++) {
-        if (planet[i] != 0) pofik;
-        planet[i] = planet[g[i]] + 1;
+        if (color[i] == 0) {
+            path.clear();
+            dfs(i);
+        }
     }
-    for (int it = 1; it <= n; it++) {
-        cout << planet[it] << ' ';
+    for (int i = 1; i <= n; i++) {
+        cout << planet[i] << ' ';
     }
     return;
 }
