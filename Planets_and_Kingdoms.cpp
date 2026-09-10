@@ -77,7 +77,7 @@ void solve() {
     }
     
     for (int i = 0; i < order.size(); i++) {
-        if (!rused[i]) {
+        if (!rused[order[i]]) {
             cnt++;
             rdfs(order[i]);
         }
