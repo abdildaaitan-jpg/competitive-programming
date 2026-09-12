@@ -28,18 +28,18 @@ void up(int &x, int y) { x = max(x, y); return; }
 void down(int &x, int y) { x = min(x, y); return; }
  
 int n, m;
-vector < vector < int >> g;
+vector < vector < int >> g;     
 vector < int > cat, valMove, leafes;
 
-void dfs(int v) {
-    bool leaf = 0;
+void dfs(int v, int p) {
+
     for (int to: g[v]) {
-        leaf = 1;
+        if (to == p) pofik;
         if (cat[to] == 1) valMove[to] = valMove[v] - 1;
         else valMove[to] = m;
-        if (valMove[to] >= 0) dfs(to);
+        if (valMove[to] >= 0) dfs(to, v);
     }
-    if (!leaf) {
+    if (v != 1 && g[v].size() == 1) {
         leafes.pb(v);
     }
 }
@@ -59,9 +59,10 @@ void solve() {
     for (int i = 1; i < n; i++) {
         cin >> u >> v;
         g[u].pb(v);
+        g[v].pb(u);
     }
 
-    dfs(1);
+    dfs(1, -1);
     
     int valCafe = 0;
     for (int i = 0; i < leafes.size(); i++) {
