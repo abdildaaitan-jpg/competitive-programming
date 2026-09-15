@@ -29,8 +29,9 @@ void down(int &x, int y) { x = min(x, y); return; }
  
 int n;
 
-bool check_inc(int a, int b) {
-    return (a | b) != a;
+int get_inc(int a, int b) {
+    int inc = (a | b);
+    return inc;
 }
 
 void solve() {
@@ -39,20 +40,23 @@ void solve() {
     vector < bool > used(n, 0);
 
     for (int &it: orray) cin >> it;
-
-    sort(all(orray));
-    reverse(all(orray));
-    int m = 0;
-    used[m] = 1;
-    int cur = orray[m];
-    good_orray.pb(cur);
-
-    for (int i = 0; i < n; i++) {
-        if (!used[i] && check_inc(cur, orray[i])) {
-            used[i] = 1;
-            cur = orray[i];
-            good_orray.pb(cur);        
+    int cur = 0;
+    
+    for (int step = 0; step < min(n, (int)30); step++) {
+        pair < int, int > max_inc = {cur, -1};
+        for (int j = 0; j < n; j++) {    
+            if (!used[j]) {
+                int cur_inc = get_inc(cur, orray[j]);
+                if (cur_inc > max_inc.fi) {
+                    max_inc.fi = cur_inc; 
+                    max_inc.se = j;
+                }
+            }
         }
+        if (max_inc.se == -1) break;
+        used[max_inc.se] = 1;
+        cur = max_inc.fi;
+        good_orray.pb(orray[max_inc.se]);  
     }
     for (int i = 0; i < n; i++) {
         if (!used[i]) good_orray.pb(orray[i]);
