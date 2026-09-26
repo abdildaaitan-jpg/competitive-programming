@@ -63,5 +63,6 @@ public class CustomerPurchase {
         System.out.print("Your change in all quarters is: ");
         System.out.print(numQuarters);
         System.out.println(" quarters.");
+        in.close();
     }
 }
