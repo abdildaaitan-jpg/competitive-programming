@@ -68,7 +68,7 @@ void solve() {
     cin >> n;
     v.resize(n + 1); 
     for (int i = 1; i <= n; i++) cin >> v[i];
-    int nn = *max_element(all(v));
+    int nn = *max_element(v.begin() + 1, v.end());
     t.resize(n * 4);
     
     for (int i = 1; i <= n; i++) {
