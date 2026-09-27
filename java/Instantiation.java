@@ -9,5 +9,7 @@ public class Instantiation {
         Instantiation_ y = new Instantiation_();
         System.out.println(y.name);
         System.out.println(y.age);
+
+        y.Hello();
     }
 }
