@@ -87,8 +87,9 @@ void solve() {
         ell(1, 1, nn, v[l]);
         upd(1, 1, nn, v[r]);
         l++;
-        get(1, 1, nn, v[l] + 1, nn);
-        
+        for (int i = l; i <= r; i++)
+            get(1, 1, nn, v[i] + 1, nn);
+
         cout << inv << ' ';
         r++;
     }
