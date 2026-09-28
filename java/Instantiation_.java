@@ -3,6 +3,6 @@ public class Instantiation_ {
     String name = "Abdilda";   
     
     public void Hello() {
-        System.out.println("Hello, World!");
+        System.out.println("Hello, World!\n");
     } 
 }
