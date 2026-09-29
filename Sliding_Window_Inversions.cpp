@@ -27,7 +27,7 @@ int binpow(int a, int b) {
 void up(int &x, int y) { x = max(x, y); return; }
 void down(int &x, int y) { x = min(x, y); return; }
 
-vector < int > v, t;
+vector < int > vv, t;
 int inv = 0;
 
 void upd(int n, int s, int e, int i) {
@@ -64,12 +64,36 @@ void ell(int n, int s, int e, int i) {
     t[n] = t[n << 1] + t[n << 1 | 1];
 }
 
+void next(int n, int s, int e, int l, int r) {
+    if (s > r || e < l) return;
+    if (s >= l && e <= r) {
+        inv -= t[n];
+        return;
+    }
+    if (s == e) return;
+    int mid = (s + e) / 2;
+    next(n << 1, s, mid, l, r);
+    next(n << 1 | 1, mid + 1, e, l, r);
+} 
+
+
 void solve() {
     int n, k;
     cin >> n >> k;
-    v.resize(n + 1); 
-    for (int i = 1; i <= n; i++) cin >> v[i];
-    int nn = *max_element(v.begin() + 1, v.end());
+    vv.resize(n); 
+    for (int &it: vv) cin >> it;
+
+    vector < int > vvv = vv;
+    sort(all(vvv));
+    vvv.erase(unique(all(vvv)), vvv.end());
+
+    vector < int > v(1);
+
+    for (int i = 0; i < vv.size(); i++) {
+        v.pb(lwb(all(vvv), vv[i]) - vvv.begin() + 1);
+    }
+
+    int nn = vvv.size();
     t.resize(nn * 4);
 
     int l = 1, r = k;
@@ -83,13 +107,11 @@ void solve() {
     r++;
 
     while (r <= n) {
-        inv = 0;
         ell(1, 1, nn, v[l]);
+        if (v[l] > 1) next(1, 1, nn, 1, v[l] - 1); 
         upd(1, 1, nn, v[r]);
         l++;
-        for (int i = l; i <= r; i++)
-            get(1, 1, nn, v[i] + 1, nn);
-
+        get(1, 1, nn, v[r] + 1, nn);
         cout << inv << ' ';
         r++;
     }
