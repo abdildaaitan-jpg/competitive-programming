@@ -1,6 +1,9 @@
 public class NewCar {
     public static void main(String[] args) {
         CarModel myCar = new CarModel(1969, "Mustang");
-        System.out.println(myCar.name + " " + myCar.year);
+        CarModel yourCar = myCar;
+        CarModel hisCar = null;
+
+        System.out.println(yourCar.name + " " + yourCar.year);
     }
 }
