@@ -3,7 +3,8 @@ public class NewCar {
         CarModel myCar = new CarModel(1969, "Mustang");
         CarModel yourCar = myCar;
         CarModel hisCar = null;
+        hisCar = yourCar;
 
-        System.out.println(yourCar.name + " " + yourCar.year);
+        System.out.println(hisCar.name + " " + hisCar.year);
     }
 }
