@@ -19,6 +19,7 @@ public class AreaAndPerimeter {
         System.out.println("Perimeter: " + P);
 
         circle();
+        input.close();
     }
     public static void circle() {
         Scanner input = new Scanner(System.in);
@@ -34,5 +35,6 @@ public class AreaAndPerimeter {
 
         System.out.println("Area: " + A);
         System.out.println("Perimeter: " + P);
+        input.close();
     }
 }
