@@ -29,36 +29,18 @@ void down(int &x, int y) { x = min(x, y); return; }
 
 int n, q;
 vector < string > tree;
-vector < int > t, v;
+vector < vector < int >> t;
 
-void build(int n, int s, int e) {
-    if (s == e) {
-        t[n] = v[s];
+void build(int n, int rowl, int coll, int rowr, int colr) {
+    if (rowl == rowr && coll == colr) {
+        t[rowl][coll] = tree[rowl][coll];
         return;
     }
-    int mid = (s + e) / 2;
-    build(n << 1, s, mid);
-    build(n << 1 | 1, mid + 1, e);
-    t[n] = t[n << 1] + t[n << 1 | 1];
-}
-
-void upd(int n, int s, int e, int i, int v) {
-    if (s == e) {
-        t[n] = v;
-        return;
-    }
-    int mid = (s + e) / 2;
-    if (i <= mid) upd(n << 1, s, mid, i, v);
-    else upd(n << 1 | 1, mid + 1, e, i, v);
-    t[n] = t[n << 1] + t[n << 1 | 1];
-}
-
-int get(int n, int s, int e, int l, int r) {
-    if (s > r || e < l) return 0;
-    if (s >= l && e <= r) return t[n];
-    int mid = (s + e) / 2;
-    get(n << 1, s, mid, l, r);
-    get(n << 1 | 1, mid + 1, e, l, r);
+    int rowm = (rowl + rowr) / 2, colm = (coll + colr) / 2;
+    build(n << 2,     rowl,     coll,     rowm, colm);
+    build(n << 2 + 1, rowl,     colm + 1, rowm, colr);
+    build(n << 2 + 2, rowm + 1, coll,     rowr, colm);
+    build(n << 2 + 3, rowm + 1, colm + 1, rowr, colr);
 }
 
 void solve() {
