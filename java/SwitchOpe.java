@@ -28,6 +28,7 @@ public class SwitchOpe {
             default:
                 print("Error");
         }
+        in.close();
     }
     static void print(String day) {
         System.out.print(day);
