@@ -19,5 +19,6 @@ public class S1mpleGame {
             guess = in.nextInt();
         }
         System.out.println("Congratulations, you guessed the number. It was " + num + ".");
+        in.close();
     }
 }
