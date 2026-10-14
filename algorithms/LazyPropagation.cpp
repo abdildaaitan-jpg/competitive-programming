@@ -28,7 +28,7 @@ void up(int &x, int y) { x = max(x, y); return; }
 void down(int &x, int y) { x = min(x, y); return; }
 
 int n;
-vector < int > v, t, l;
+vector < int > v, t, lp;
 
 void build(int n, int s, int e) {
     if (s == e) {
@@ -42,24 +42,24 @@ void build(int n, int s, int e) {
 }
 
 void push(int n, int s, int e) {
-    if (l[n] == 0) return;
+    if (lp[n] == 0) return;
     int mid = (s + e) / 2;
-    t[n << 1] += l[n] * (mid - s + 1);
-    t[n << 1 | 1] += l[n] * (e - mid);
-    l[n << 1] += l[n];
-    l[n << 1 | 1] += l[n];
-    l[n] = 0;
+    t[n << 1] += lp[n] * (mid - s + 1);
+    t[n << 1 | 1] += lp[n] * (e - mid);
+    lp[n << 1] += lp[n];
+    lp[n << 1 | 1] += lp[n];
+    lp[n] = 0;
 }
 
 void upd(int n, int s, int e, int l, int r, int x) {
     if (l > r) return;
     if (l == s && r == e) {
         t[n] += x * (e - s + 1);
-        l[n] += x;
+        lp[n] += x;
         return;
     }
     push(n, s, e);
-    int mid (s + e) / 2;
+    int mid = (s + e) / 2;
     upd(n << 1, s, mid, l, min(r, mid), x);
     upd(n << 1 | 1, mid + 1, e, max(l, mid + 1), r, x);
     t[n] = t[n << 1] + t[n << 1 | 1];
@@ -79,7 +79,7 @@ int query(int n, int s, int e, int l, int r) {
 void solve() {
     int q;
     cin >> n >> q;
-    t.resize(n * 4); l.resize(n * 4); v.resize(n + 1);
+    t.resize(n * 4); lp.resize(n * 4); v.resize(n + 1);
     for (int i = 1; i <= n; i++) cin >> v[i];
     build(1, 1, n);
     while (q--) {
