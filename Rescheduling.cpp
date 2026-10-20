@@ -89,6 +89,7 @@ void solve() {
         }
     }
     cout << c.fi << ' ' << c.se << '\n';
+    //
     return;
 }
 signed main() {
