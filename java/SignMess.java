@@ -1,6 +1,6 @@
 import java.util.*;
 public class SignMess {
-    static Scanner in = new Scanner(System.in);
+    static final Scanner in = new Scanner(System.in);
     static void main(String[] args) {
         String mess = in.nextLine();
 
