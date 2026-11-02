@@ -27,69 +27,70 @@ int binpow(int a, int b) {
 void up(int &x, int y) { x = max(x, y); return; }
 void down(int &x, int y) { x = min(x, y); return; }
 
+int l1, r1, l2, r2, s1, d1, s2, d2;
+bool poss1 = 0, poss2 = 0;
+pair < int, int > ans1, ans2;
+
 void No() {
     cout << "-1 -1\n";
 }
-void solve() {
-    int l1, r1, l2, r2, s1, d1, s2, d2;
-    cin >> l1 >> r1 >> l2 >> r2 >> s1 >> d1 >> s2 >> d2;
-    if (r1 < l2) {
-        cout << l1 << ' ' << l2 << '\n';
+void check1() {
+    pair < int, int > x = {l1, r1 - d1}, y = {l2 - d1, r2 - d2 - d1};
+    int c1 = s1, c2 = s2 - d1;
+    if (x.fi <= c1 && x.se >= c1 && y.fi <= c2 && y.se >= c2 && c1 <= c2) {
+        poss1 = 1;
+        ans1 = {s1, s2};
         return;
-    }   
-    if (l1 < l2) {
-        int m = l1 + d1;
-        if (m + d2 > r2) {
-            No();
-            return;
-        }
     }
-    else if (l2 < l1) {
-        int m = l2 + d2;
-        if (m + d1 > r1) {
-            No();
-            return;
-        }
+    int l = max(x.fi, y.fi), r = min(x.se, y.se);
+    if (l > r) return;
+    int t = min(r, max(l, min(c1, c2)));
+
+    poss1 = 1;
+    ans1 = {t, t + d1};
+}
+
+void check2() {
+    pair < int, int > x = {l2, r2 - d2}, y = {l1 - d2, r1 - d1 - d2};
+    int c1 = s2, c2 = s1 - d2;
+    if (x.fi <= c1 && x.se >= c1 && y.fi <= c2 && y.se >= c2 && c1 <= c2) {
+        poss2 = 1;
+        ans2 = {s2, s1};
+        return;
     }
-    else {
-        if (r1 < r2) {
-            int m = l1 + d1;
-            if (m + d2 > r2) {
-                No();
-                return;
-            }
+    int l = max(x.fi, y.fi), r = min(x.se, y.se);
+    if (l > r) return; 
+    int t = min(r, max(l, min(c1, c2)));
+
+    poss2 = 1;
+    ans2 = {t + d2, t};
+}
+
+void solve() {
+    cin >> l1 >> r1 >> l2 >> r2 >> s1 >> d1 >> s2 >> d2;
+    poss1 = 0; poss2 = 0;
+    ans1 = {0, 0}; ans2 = {0, 0};
+    check1();
+    check2();
+
+    if (poss1 && poss2) {
+        int cost1 = abs(s1 - ans1.fi) + abs(s2 - ans1.se), cost2 = abs(s1 - ans2.fi) + abs(s2 - ans2.se);
+        if (cost1 <= cost2) {
+            cout << ans1.fi << ' ' << ans1.se << '\n';
         }
         else {
-            int m = l2 + d2;
-            if (m + d1 > r1) {
-                No();
-                return;
-            }
+            cout << ans2.fi << ' ' << ans2.se << '\n';
         }
     }
-
-    pair < int, int > c1 = {l1, r1 - d1}, c2 = {l2, r2 - d2}, c;
-    int min = maxn;
-    for (int i = c1.fi; i <= c1.se; i++) {
-        for (int l = i + d1; l <= c2.se; l++) {
-            int abc = abs(s1 - i) + abs(s2 - l);
-            if (abc < min) {
-                min = abc;
-                c = {i, l};
-            }
-        }
+    else if (poss1) {
+        cout << ans1.fi << ' ' << ans1.se << '\n';
     }
-    for (int i = c2.fi; i <= c2.se; i++) {
-        for (int l = i + d2; l <= c1.se; l++) {
-            int abc = abs(s2 - i) + abs(s1 - l);
-            if (abc < min) {
-                min = abc;
-                c = {l, i};
-            }
-        }
+    else if (poss2) {
+        cout << ans2.fi << ' ' << ans2.se << '\n';
     }
-    cout << c.fi << ' ' << c.se << '\n';
-    //
+    else {
+        No();
+    }
     return;
 }
 signed main() {
