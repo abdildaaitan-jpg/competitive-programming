@@ -34,6 +34,7 @@ pair < int, int > ans1, ans2;
 void No() {
     cout << "-1 -1\n";
 }
+
 void check1() {
     pair < int, int > x = {l1, r1 - d1}, y = {l2 - d1, r2 - d2 - d1};
     int c1 = s1, c2 = s2 - d1;
