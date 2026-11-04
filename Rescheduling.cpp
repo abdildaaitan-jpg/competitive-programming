@@ -71,6 +71,7 @@ void solve() {
     cin >> l1 >> r1 >> l2 >> r2 >> s1 >> d1 >> s2 >> d2;
     poss1 = 0; poss2 = 0;
     ans1 = {0, 0}; ans2 = {0, 0};
+    
     check1();
     check2();
 
