@@ -9,7 +9,11 @@ using ll = long long;
 using namespace std;
 const int maxn = 1e19;
 
-bool check(int n, int B, vector < pair < int, int >> t, int k, deque < int > N, deque < int > M) {
+int n, m, k, B;
+deque < int > N, M;
+vector < pair < int, int >> t;
+
+bool check(int n) {
     for (int i = 0; i < N.size(); ) if (N[i] > n) N.pf(); else break;
     for (int i = 0; i < M.size(); ) if (M[i] > n) M.pf(); else break;
     
@@ -32,12 +36,11 @@ bool check(int n, int B, vector < pair < int, int >> t, int k, deque < int > N, 
 
 
 void solve() {
-    int n, m, k, B;
     cin >> n >> m >> k >> B;
     
     int l = k, r = min(n, m);
     
-    vector < pair < int, int >> t(k + 1);
+    t.resize(k + 1);
     vector < bool > nn(n + 1, 0), mm(m + 1, 0);
     
     int x = maxn, y = maxn; 
@@ -60,7 +63,6 @@ void solve() {
         mm[t[i].se] = 1;
     }  
     
-    deque < int > N, M;
     for (int i = 1; i <= n; i++) {
         if (!nn[i]) N.pb(i);
         if (!mm[i]) M.pb(i);
@@ -70,7 +72,7 @@ void solve() {
     
     while (l != r) {
         int mid = (l + r) / 2;
-        if (check(mid, B, t, k, N, M)) {
+        if (check(mid)) {
             r = mid;
         }
         else {
@@ -78,7 +80,7 @@ void solve() {
         }
     }
     
-    if (check(l, B, t, k, N, M)) cout << l;
+    if (check(l)) cout << l;
     else cout << -1;
     
     // for (int i: N) cout << i << ' ';
