@@ -1,43 +1,32 @@
 #include <bits/stdc++.h>
 
 using ll = long long;
-#define all(v) v.begin(), v.end()
-#define fi first
+#define sz(v) ((int)v.size())
 #define se second
+#define fi first
+#define upb upper_bound
+#define lwb lower_bound
 #define pb push_back
-#define pf pop_front
+#define pf pop_back
+#define ppb pop_back
+#define ppf pop_front
+#define eb emplace_back
+#define pofik continue
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+// #define get(v,n) get<n>(v)
 using namespace std;
-
-// vector < int > v, t;
-
-// void build(int n, int s, int e) {
-//     if (s == e) {
-//         t[n] = v[s];
-//         return;
-//     }
-//     int mid = (s + e) / 2;
-//     build(n << 1, s, mid);
-//     build(n << 1 | 1, mid + 1, e);
-//     t[n] = t[n << 1] + t[n << 1 | 1];
-// }
-
-// void upd(int n,int s, int e, int i, int x) {
-//     if (s == e) {
-//         t[n] = x;
-//         return;
-//     }
-//     int mid = (s + e) / 2;
-//     if (i <= mid) upd(n << 1, s, mid, i, x);
-//     else upd(n << 1 | 1, mid + 1, e, i, x);
-//     t[n] = t[n << 1] + t[n << 1 | 1];
-// }
-
-// int get(int n, int s, int e, int l, int r) {
-//     if (s > r || e < l) return 0;
-//     if (s >= l && e <= r) return t[n];
-//     int mid = (s + e) / 2;
-//     return get(n << 1, s, mid, l, r) + get(n << 1 | 1, mid + 1, e, l, r);
-// }
+const ll maxn = 1e18 + 7;
+const ll MOD = 1e9 + 7;
+int gcd(int a, int b) {if (b == 0) return a; return gcd(b, a % b);}
+int lcm(int a, int b) {return a / gcd(a, b) * b;}
+int binpow(int a, int b) {
+    int res = 1; 
+    while (b > 0) { if (b & 1) res = (res * a) % MOD; a = (a * a) % MOD; b /= 2; }
+    return res;
+}
+void up(int &x, int y) { x = max(x, y); return; }
+void down(int &x, int y) { x = min(x, y); return; }
 
 void solve() {
     int n, q;
@@ -77,10 +66,6 @@ void solve() {
         cout << l << ' ' << r << '\n';
     }
     
-    
-    // for (int i: R) cout << i << ' ';
-    // cout << '\n';
-    // for (int i: L) cout << i << ' ';
     return;
 }
 
